@@ -1,13 +1,11 @@
 package com.aliya.plugin;
 
-import com.android.build.api.transform.Context;
 import com.android.build.api.transform.JarInput;
 import com.android.build.api.transform.QualifiedContent;
 import com.android.build.api.transform.Transform;
 import com.android.build.api.transform.TransformException;
 import com.android.build.api.transform.TransformInput;
 import com.android.build.api.transform.TransformInvocation;
-import com.android.build.api.transform.TransformOutputProvider;
 import com.google.common.collect.Sets;
 
 import org.gradle.api.Project;
@@ -23,11 +21,11 @@ import java.util.Set;
  * @author a_liYa
  * @date 2018/7/3 17:55.
  */
-public class JavaSsistTransform extends Transform {
+public class JavassistTransform extends Transform {
 
     Project mProject;
 
-    public JavaSsistTransform(Project project) {
+    public JavassistTransform(Project project) {
         this.mProject = project;
     }
 
@@ -92,11 +90,4 @@ public class JavaSsistTransform extends Transform {
         super.transform(transformInvocation);
     }
 
-    @Override
-    public void transform(Context context, Collection<TransformInput> inputs,
-                          Collection<TransformInput> referencedInputs, TransformOutputProvider
-                                  outputProvider, boolean isIncremental) throws IOException,
-            TransformException, InterruptedException {
-        super.transform(context, inputs, referencedInputs, outputProvider, isIncremental);
-    }
 }
