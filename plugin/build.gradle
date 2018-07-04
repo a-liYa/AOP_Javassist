@@ -10,10 +10,6 @@ dependencies {
     compile 'org.javassist:javassist:3.20.0-GA'
 }
 
-repositories {
-    jcenter()
-}
-
 // 发布到本地
 uploadArchives {
     repositories {
