@@ -91,3 +91,43 @@ apply plugin: com.aliya.plugin.自定义Plugin
 ```
 
 `clean`一下，再`make project`。
+
+
+### 接受外部参数
+
+通常情况下，插件使用方需要传入一些配置参数，如 bugtags 的 SDK 的插件需要接受两个参数:
+```
+bugtags {
+    appKey "APP_KEY"  //这里是你的 appKey
+    appSecret "APP_SECRET"    //这里是你的 appSecret，管理员在设置页可以查看
+}
+```
+那这两个参数怎么传到插件内呢？
+
+`org.gradle.api.Project` 有一个 `ExtensionContainer getExtensions()` 方法，可以用来实现这个传递。
+
+##### 声明参数类
+
+声明一个 Groovy 类，有两个默认值为 null 的成员变量：
+```
+class ApkExtension {
+    String destDir = null;
+}
+```
+
+##### 接受参数
+
+```
+project.extensions.create('apkconfig', ApkDistExtension);
+```
+
+##### 获取和使用参数
+
+在 create 了 extension 之后，如果传入了参数，则会携带在 project 实例中，
+> 注意：只能在task中才能取到参数值
+
+```
+project.task('apkdist') << {
+    println project['apkconfig'].destDir
+}
+```
