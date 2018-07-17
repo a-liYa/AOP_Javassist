@@ -1,5 +1,6 @@
 package com.aliya.plugin;
 
+import com.android.build.gradle.AppExtension;
 import com.android.build.gradle.AppPlugin;
 import com.android.build.gradle.LibraryPlugin;
 
@@ -19,10 +20,8 @@ class JavassistPlugin implements Plugin<Project> {
         if (project.getPlugins().hasPlugin(AppPlugin.class)) {
             logger.error("ApplicationPlugin");
 
-
 //            project.getDependencies().add("implementation", "io.github.prototypez:save-state-core:0.1");
 //            project.getDependencies().add("annotationProcessor", "io.github.prototypez:save-state-processor:0.1.4");
-
 
         }
 
@@ -31,6 +30,8 @@ class JavassistPlugin implements Plugin<Project> {
             logger.error("LibraryPlugin");
         }
 
-//        project.android.registerTransform(new JavassistTransform(project))
+        AppExtension android = project.getExtensions().getByType(AppExtension.class);
+        android.registerTransform(new JavassistTransform(project));
+
     }
 }

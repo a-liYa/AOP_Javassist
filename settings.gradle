@@ -1,1 +1,1 @@
-include ':app', ':api', ':plugin', ':javassist-simple'
+include ':app', ':api', ':plugin', ':javassist-simple', ':testlib'
