@@ -57,7 +57,7 @@ public class JavassistTransform extends Transform {
     }
 
     /**
-     * 指定输入的类型，通过这里的设定，可以指定我们要处理的文件类型这样确保其他类型的文件不会传入
+     * 指定输入的类型，可以指定我们要处理的文件类型这样确保其他类型的文件不会传入
      *
      * @return Set
      */

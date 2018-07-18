@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.aliya.plugin'
+apply plugin: 'com.aliya.config'
 
 android {
     compileSdkVersion 27
@@ -16,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+appConfig {
+    apiBase "http://h24.app.api"
 }
 
 dependencies {
