@@ -29,7 +29,7 @@ class AppConfigPlugin implements Plugin<Project> {
                 VariantScope scope = variantData.scope
 
                 // 创建一个task
-                def taskName = variantData.scope.getTaskName("appConfig", "Test")
+                def taskName = scope.getTaskName("appConfig", "Test")
                 def createTask = project.task(taskName)
 
                 // 设置task要执行的任务
@@ -37,7 +37,7 @@ class AppConfigPlugin implements Plugin<Project> {
                     createAppConfigJava(variant, project.appConfig)
                 }
 
-                def generateBuildConfigTask = variantData.scope.generateBuildConfigTask
+                def generateBuildConfigTask = scope.generateBuildConfigTask
                 if (generateBuildConfigTask) {
                     createTask.dependsOn generateBuildConfigTask
                     generateBuildConfigTask.finalizedBy createTask
