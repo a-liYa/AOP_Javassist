@@ -4,7 +4,7 @@ import com.aliya.plugin.compiling.AppConfigGenerator
 import com.aliya.plugin.extension.ConfigBean
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.LibraryPlugin
-import com.android.build.gradle.internal.scope.VariantScope
+import com.android.build.gradle.internal.api.ApplicationVariantImpl
 import com.android.build.gradle.internal.variant.BaseVariantData
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -24,25 +24,25 @@ class AppConfigPlugin implements Plugin<Project> {
             project.extensions.create("appConfig", ConfigBean)
 
             android.applicationVariants.all { variant ->
-                // 获取到scope,作用域
-                BaseVariantData variantData = variant.variantData
-                VariantScope scope = variantData.scope
+                if (variant instanceof ApplicationVariantImpl) {
+                    // 获取 变体数据
+                    BaseVariantData variantData = variant.variantData
 
-                // 创建一个task
-                def taskName = scope.getTaskName("appConfig", "Test")
-                def createTask = project.task(taskName)
+                    // 创建一个task
+                    def taskName = variantData.getTaskName("appConfig", "Test")
+                    def createTask = project.task(taskName)
 
-                // 设置task要执行的任务
-                createTask.doLast {
-                    createAppConfigJava(variant, project.appConfig)
+                    // 设置task要执行的任务
+                    createTask.doLast {
+                        createAppConfigJava(variant, project.appConfig)
+                    }
+
+                    def generateBuildConfigTask = variant.generateBuildConfig
+                    if (generateBuildConfigTask) {
+                        createTask.dependsOn generateBuildConfigTask
+                        generateBuildConfigTask.finalizedBy createTask
+                    }
                 }
-
-                def generateBuildConfigTask = scope.generateBuildConfigTask
-                if (generateBuildConfigTask) {
-                    createTask.dependsOn generateBuildConfigTask
-                    generateBuildConfigTask.finalizedBy createTask
-                }
-
             }
 
         }
@@ -58,20 +58,6 @@ class AppConfigPlugin implements Plugin<Project> {
         generator.addField("String", "API_BASE", '"' + config.apiBase + '"')
 
         generator.generate()
-
-//        // 要生成的内容
-//        def content = """package com.aliya.config;
-//
-//                        public final class AppConfig {
-//                            public static final String API_BASE = "${config.apiBase}";
-//                        }
-//                        """
-//        // 获取到BuildConfig类的路径
-//        File outputDir = variant.variantData.scope.buildConfigSourceOutputDir
-//        logger.error("dir " + outputDir.path)
-//        File javaFile = new File(outputDir, "AppConfig.java")
-//
-//        javaFile.write(content, 'UTF-8');
 
     }
 
